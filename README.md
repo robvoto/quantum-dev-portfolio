@@ -39,7 +39,6 @@ cd quantum-dev-portfolio/bloch-sphere-simulator
 python -m venv venv-bloch
 source venv-bloch/Scripts/activate
 
-
 Your prompt should now show (venv-bloch).
 
 5️⃣ Install dependencies
@@ -52,9 +51,24 @@ python -m pip freeze > requirements.txt
 7️⃣ Run the simulator
 python bloch_one_qubit.py
 
-
 A 3D plot window will open showing a Bloch sphere with one red dot —
 that dot is a randomly generated qubit.
 
 8️⃣ Deactivate the environment when done
 deactivate
+
+
+---
+A one-qubit state is written as:
+
+∣𝜓⟩=𝛼∣0⟩+𝛽∣1⟩
+
+with complex amplitudes α and β such that
+
+∣𝛼∣2+∣𝛽∣2=1
+
+In code:
+alpha = np.sqrt(p0)                     # amplitude of |0⟩ (real, non-negative)
+beta  = np.exp(1j * phi) * np.sqrt(p1)  # amplitude of |1⟩ with phase φ
+
+1j = i (complex number)

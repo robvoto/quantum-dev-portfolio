@@ -1,0 +1,70 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+plt.close('all')
+
+# ---------- Gate ----------
+Z = np.array([[1, 0],
+              [0, -1]], dtype=complex)
+
+# ---------- State ----------
+phi = np.pi/3  # <── φ = π/3
+psi = np.array([[np.sqrt(0.75)],
+                [np.sqrt(0.25)*np.exp(1j*phi)]], dtype=complex)
+
+# ---------- Bloch coordinates ----------
+def bloch_coords(psi):
+    a, b = psi[0,0], psi[1,0]
+    x = 2*np.real(np.conj(a)*b)
+    y = 2*np.imag(np.conj(a)*b)
+    z = np.abs(a)**2 - np.abs(b)**2
+    return np.array([x, y, z], dtype=float)
+
+# ---------- Drawing helpers ----------
+AX_FONT=8; TITLE_FONT=10; LABEL_FONT=9
+plt.rcParams["mathtext.default"] = "regular"
+
+def draw_axes(ax):
+    u,v=np.mgrid[0:2*np.pi:60j,0:np.pi:30j]
+    xs=np.cos(u)*np.sin(v); ys=np.sin(u)*np.sin(v); zs=np.cos(v)
+    ax.plot_wireframe(xs,ys,zs,color="lightgray",linewidth=0.5,alpha=0.35)
+    arrows=[(1.15,0,0,"+X",(0.04,0,0)),(-1.15,0,0,"−X",(-0.10,0,0)),
+            (0,1.15,0,"+Y",(0,0.04,0)),(0,-1.15,0,"−Y",(0,-0.10,0)),
+            (0,0,1.15,r"$|0\rangle$",(0,0,0.04)),(0,0,-1.15,r"$|1\rangle$",(0,0,-0.10))]
+    for vx,vy,vz,txt,off in arrows:
+        ax.quiver(0,0,0,vx,vy,vz,color="black",linewidth=1.5)
+        ax.text(vx+off[0],vy+off[1],vz+off[2],txt,fontsize=AX_FONT)
+    ax.set_xlim([-1.25,1.25]); ax.set_ylim([-1.25,1.25]); ax.set_zlim([-1.25,1.25])
+    ax.set_box_aspect([1,1,1]); ax.axis("off"); ax.view_init(elev=22,azim=35)
+
+def draw_vec(ax,v,color,label=None):
+    ax.quiver(0,0,0,v[0],v[1],v[2],color=color,linewidth=3,arrow_length_ratio=0.16)
+    ax.scatter([v[0]],[v[1]],[v[2]],s=60,color=color,edgecolors="k",linewidth=0.6,zorder=5)
+    if label: ax.text(v[0]*1.12,v[1]*1.12,v[2]*1.12,label,color=color,fontsize=LABEL_FONT)
+
+# ---------- Plot ----------
+before=bloch_coords(psi)
+after=bloch_coords(Z@psi)
+
+fig,(axL,axR)=plt.subplots(1,2,figsize=(15,6),dpi=140,subplot_kw={"projection":"3d"})
+
+draw_axes(axL)
+axL.set_title(
+    rf"$|\psi\rangle=\sqrt{{0.75}}|0\rangle + e^{{i\phi}}\sqrt{{0.25}}|1\rangle$"
+    #f"\n(with φ = π/3 ≈ {phi:.2f} rad)"
+    , qantufontsize=TITLE_FONT
+)
+draw_vec(axL,before,"dimgray","before")
+axL.text(0,0,-1.4,rf"$\phi = \pi/3$",fontsize=10,color="darkred")
+
+draw_axes(axR)
+axR.set_title(
+    rf"$Z|\psi\rangle=\sqrt{{0.75}}|0\rangle - e^{{i\phi}}\sqrt{{0.25}}|1\rangle$"
+    f"\n(with φ = π/3 ≈ {phi:.2f} rad)",
+    fontsize=TITLE_FONT
+)
+draw_vec(axR,after,"royalblue","after")
+axR.text(0,0,-1.4,rf"$\phi = \pi/3$",fontsize=10,color="darkred")
+
+plt.tight_layout()
+plt.show()

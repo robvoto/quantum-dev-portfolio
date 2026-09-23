@@ -52,7 +52,7 @@ draw_axes(axL)
 axL.set_title(
     rf"$|\psi\rangle=\sqrt{{0.75}}|0\rangle + e^{{i\phi}}\sqrt{{0.25}}|1\rangle$"
     #f"\n(with φ = π/3 ≈ {phi:.2f} rad)"
-    , qantufontsize=TITLE_FONT
+    , fontsize=TITLE_FONT
 )
 draw_vec(axL,before,"dimgray","before")
 axL.text(0,0,-1.4,rf"$\phi = \pi/3$",fontsize=10,color="darkred")

@@ -1,6 +1,9 @@
-from ast import If
 from qiskit import QuantumCircuit
 import math
+import sys
+
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
 
 # pretend inputs (just for understanding, not the homework function)
 circuit = QuantumCircuit(3, 2)   # 3 qubits, 2 classical bits

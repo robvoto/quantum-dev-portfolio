@@ -1,74 +1,60 @@
-# quantum-dev-portfolio
-# 🌀 Bloch Sphere Simulator (MVP)
+# Quantum Dev Portfolio
 
-A minimal Python project that generates **one random qubit** and displays it as a point on the **Bloch sphere**.  
-Part of my *Quantum Dev Portfolio*.
+Small Python projects for learning and demonstrating core quantum-computing concepts through executable examples and visualisations.
 
----
+## Projects
 
-## 🧭 Project Goal
-To learn how a qubit can be represented on the Bloch sphere using the angles **θ (theta)** and **φ (phi)**,  
-and to visualise that quantum state in 3D with Matplotlib.
+### Bloch sphere simulator
 
----
+`bloch-sphere-simulator/`
 
-## 🧱 Step-by-Step Setup Guide (Windows + Git Bash)
+Explores single-qubit state representation on the Bloch sphere using NumPy and Matplotlib.
 
-### 1️⃣ Install Python
-1. Go to [python.org/downloads](https://www.python.org/downloads/).
-2. Download the latest version (Python 3.x).
-3. During installation **tick** ✅ *“Add Python to PATH”*.
+Included examples:
 
-To confirm:
-bash
-python --version
+- `bloch_one_qubit.py` — plots a qubit with `P(0)=0.75`, `P(1)=0.25` and configurable phase.
+- `bloch_qubit_plot.py` — interactive Bloch-sphere visualisation with probability and phase controls.
+- `z_gate_bloch.py` — compares a state before and after applying the Pauli-Z gate.
 
-Get Git Bash
-Download from git-scm.com
-During setup, select “Use Git from Windows Command Prompt”.
-Open Git Bash after installation.
+Setup:
 
-3️⃣ Clone this repository
-In Git Bash:
-
-cd /c/Users/<you>/Documents
-git clone https://github.com/<your-username>/quantum-dev-portfolio.git
-cd quantum-dev-portfolio/bloch-sphere-simulator
-
-4️⃣ Create a virtual environment
+```powershell
+cd bloch-sphere-simulator
 python -m venv venv-bloch
-source venv-bloch/Scripts/activate
-
-Your prompt should now show (venv-bloch).
-
-5️⃣ Install dependencies
-python -m pip install --upgrade pip
-python -m pip install numpy matplotlib
-
-6️⃣ Save the installed packages (optional but good practice)
-python -m pip freeze > requirements.txt
-
-7️⃣ Run the simulator
+venv-bloch\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
 python bloch_one_qubit.py
+```
 
-A 3D plot window will open showing a Bloch sphere with one red dot —
-that dot is a randomly generated qubit.
+### Bell states and teleportation
 
-8️⃣ Deactivate the environment when done
-deactivate
+`bell-states/`
 
+Contains a step-by-step Qiskit example that builds a Bell pair, prepares a source qubit, performs the teleportation measurements, and applies the conditional X/Z corrections.
 
----
-A one-qubit state is written as:
+Setup:
 
-∣𝜓⟩=𝛼∣0⟩+𝛽∣1⟩
+```powershell
+cd bell-states
+python -m venv venv-teleport
+venv-teleport\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+python teleportation.py
+```
 
-with complex amplitudes α and β such that
+## Quantum concepts demonstrated
 
-∣𝛼∣2+∣𝛽∣2=1
+- qubit amplitudes and measurement probabilities;
+- relative phase;
+- Bloch-sphere coordinates;
+- Pauli-Z rotation behaviour;
+- Bell-pair entanglement;
+- quantum teleportation with classical feed-forward corrections.
 
-In code:
-alpha = np.sqrt(p0)                     # amplitude of |0⟩ (real, non-negative)
-beta  = np.exp(1j * phi) * np.sqrt(p1)  # amplitude of |1⟩ with phase φ
+## Repository hygiene
 
-1j = i (complex number)
+Virtual environments and editor swap files are local-only and are not committed. Dependency files contain only the direct packages required by each project.
+
+## Status
+
+This is a learning portfolio rather than a production library. The scripts are intentionally small and explicit so the quantum operations remain easy to inspect.
